@@ -32,6 +32,7 @@ auth.set_access_token(ACCESS_KEY, ACCESS_SECRET)
 api = tweepy.API(auth)
 
 
+
 #### Code for the video downloader
 def parse(cls, api, raw):
     status = cls.first_parse(api, raw)
@@ -39,21 +40,12 @@ def parse(cls, api, raw):
     return status
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+# Status() is the data model for a tweet
+tweepy.models.Status.first_parse = tweepy.models.Status.parse
+tweepy.models.Status.parse = parse
+# User() is the data model for a user profil
+tweepy.models.User.first_parse = tweepy.models.User.parse
+tweepy.models.User.parse = parse
 
 
 
