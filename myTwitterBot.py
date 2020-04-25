@@ -20,7 +20,7 @@ print("This is my Twitter Bot")
 
 
 #This is a simple twitter bot that posts tweets based on a set interval from a text file
-#More functionality will be added soon
+####################More functionality will be added soon
 
 CONSUMER_KEY = '7tr56KY7FKMjDnafPmfPRaqAh'
 CONSUMER_SECRET = 'lE9YPRch0Sa1EiXF3DkOuAeLUpL4KKotz9RFxYPmxKNCfVHK4B'
