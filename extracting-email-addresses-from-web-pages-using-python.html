@@ -1,0 +1,836 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+    
+    
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-145073432-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-145073432-1');
+    </script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script>
+        (adsbygoogle = window.adsbygoogle || []).push({
+            google_ad_client: "ca-pub-9146355715384215",
+            enable_page_level_ads: true
+        });
+    </script>
+    <link href="https://fonts.googleapis.com/css?family=Manjari|Montserrat&display=swap" rel="stylesheet">
+    <link rel="shortcut icon" href="/static/img/python_logo.ico"/>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/all.min.css" integrity="sha256-UzFD2WYH2U1dQpKDjjZK72VtPeWP50NoJjd26rnAdUI=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="/static/css/prism.css" />
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="/static/css/clean-blog.css">
+    
+<title>How to Make an Email Extractor in Python - Python Code</title>
+<meta name="description" content="Building a Python tool to automatically extract email addresses in any web page using requests-html library and regular expressions in Python." />
+<meta property="og:url" content="https://www.thepythoncode.com/article/extracting-email-addresses-from-web-pages-using-python" />
+<meta property="og:type" content="website" />
+<meta property="og:title" content="How to Make an Email Extractor in Python - Python Code" />
+<meta property="og:description" content="Building a Python tool to automatically extract email addresses in any web page using requests-html library and regular expressions in Python." />
+<meta property="og:image" content="https://www.thepythoncode.com/media/articles/email-harvester-in-python.PNG" />
+<meta property="og:image:width" content="600" />
+<meta property="og:image:height" content="315" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:site" content="@ThePythonCode1" />
+<meta name="twitter:title" content="How to Make an Email Extractor in Python - Python Code" />
+<meta name="twitter:description" content="Building a Python tool to automatically extract email addresses in any web page using requests-html library and regular expressions in Python." />
+<meta name="twitter:image" content="https://www.thepythoncode.com/media/articles/email-harvester-in-python.PNG" />
+<meta name="twitter:image:alt" content="How to Make an Email Extractor in Python" />
+<script type="text/javascript">
+    var onloadCallback = function() {
+        grecaptcha.render('html_element', {
+          'sitekey' : '6LeWm7sUAAAAAAoyi0xFwTjfRWDi8lac_YxPJVxZ'
+        });
+    };
+</script>
+<style>
+    pre .language-python {
+        font-size: 15px;
+    }
+</style>
+
+</head>
+<body>
+    <!-- Navigation -->
+
+<nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+    <a class="navbar-brand" href="/"><img style="width: 40px;height:40px;" src="/static/img/python_logo.svg" alt="Python Code"> PythonCode</a>
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      Menu <i class="fas fa-bars"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+        <li class="nav-item dropdown">
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+              
+              <a class="dropdown-item" href="/topic/ethical-hacking">Ethical Hacking</a>
+              
+              <a class="dropdown-item" href="/topic/machine-learning">Machine Learning</a>
+              
+              <a class="dropdown-item" href="/topic/general-python-topics">General Python Topics</a>
+              
+              <a class="dropdown-item" href="/topic/web-scraping">Web Scraping</a>
+              
+              <a class="dropdown-item" href="/topic/scapy">Packet Manipulation Using Scapy</a>
+              
+              <a class="dropdown-item" href="/topic/computer-vision">Computer Vision</a>
+              
+              <a class="dropdown-item" href="/topic/python-standard-library">Python Standard Library</a>
+              
+              <a class="dropdown-item" href="/topic/using-apis-in-python">Using APIs</a>
+              
+              <a class="dropdown-item" href="/topic/nlp">Natural Language Processing</a>
+              
+            </div>
+            <a class="nav-link" href="/">Python Topics</a>
+        </li>
+        <li class="nav-item"><a class="nav-link" href="/articles">Tutorials</a></li>
+        <li class="nav-item"><a class="nav-link" href="/about">About</a></li>
+        <li class="nav-item"><a class="nav-link" href="/contact">Contact Us</a></li>
+        
+        <li class="nav-item"><a class="nav-link" style="margin-right: 10px;" href="/advertise">Advertise</a></li>
+        
+      </ul>
+      <form action="/search" method="GET", class="form-inline my-2 my-lg-0 has-feedback">
+        <input class="form-control" name="q" id="q" style="font-family: 'Manjari', sans-serif; float: left;" type="search" placeholder="Search for Tutorials" aria-label="Search">
+        <button id="button-addon4" type="button" style="width: 5px;" class="btn text-primary"><i style="position: relative; right: 55px" class="fa fa-search"></i></button>
+      </form>
+    </div>
+</nav>
+  
+  <header class="masthead" style="background-image: url('/media/articles/email-harvester-in-python.PNG')">
+    <div class="overlay"></div><div class="overlay"></div><div class="overlay"></div>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto">
+            <div class="site-heading">
+            <h1>How to Make an Email Extractor in Python</h1>
+            <span class="sub-heading">Building a Python tool to automatically extract email addresses in any web page using requests-html library and regular expressions in Python.</span>
+            </div>
+        </div>
+      </div>
+    </div>
+  </header>
+  
+    
+    <div class="container-fluid">
+    
+        <div class="row">
+            <div class="col-12 col-md-9 col-xl-8 py-md-3 pl-md-5">
+            
+<div id="fb-root"></div>
+    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v4.0&appId=417169839126432&autoLogAppEvents=1"></script>
+    
+        <span class="text-secondary font-weight-light" style="font-size:13px; margin-top:-3px;">
+            <span class="text-capitalize">
+                <a href="/author/1">Abdou Rockikz
+                </a> · </span>
+            <i aria-hidden="true" class="fa fa-clock">
+            </i>
+            4 min read
+            · Updated 
+            <span class="text-capitalize"> feb 2020 </span>
+            <span id="n-views">
+            </span> ·
+        
+        
+        
+        <a href="/topic/web-scraping" class="text-info font-weight-light" style="font-size:13px; margin-top:-3px;">Web Scraping</a>
+        
+        
+        </span>
+    <br><br>
+    <div class="" align="center">
+        <a href="javascript:void(0);" class="fb-share">
+            <span class="fa-stack fa-lg">
+                <i class="fas fa-circle fa-stack-2x"></i>
+                <i class="fab fa-facebook-f fa-stack-1x fa-inverse"></i>
+            </span>
+        </a>
+        <a href="javascript:void(0);" class="twitter-share">
+            <span class="fa-stack fa-lg">
+                <i class="fas fa-circle fa-stack-2x"></i>
+                <i class="fab fa-twitter fa-stack-1x fa-inverse"></i>
+            </span>
+        </a>
+    </div>
+    <br>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+        style="display:block; text-align:center;"
+        data-ad-layout="in-article"
+        data-ad-format="fluid"
+        data-ad-client="ca-pub-9146355715384215"
+        data-ad-slot="8543983438"></ins>
+    <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+    <p><span style="font-family: helvetica, arial, sans-serif; font-size: 12pt;">An email extractor or harvester is a type of software used to extract email addresses from online and offline sources which generates a large list of addresses. Even though these extractors can serve multiple legitimate purposes such as marketing compaigns, unfortunately, they are mainly used to send spamming and phishing emails.</span></p>
+<p><span style="font-family: helvetica, arial, sans-serif; font-size: 12pt;">Since the web nowadays is the major source of information in the Internet, in this tutorial, you will learn how you can build such a tool in Python to extract email addresses from web pages using <a title="Requests-HTML: HTML Parsing for Humans&trade;" href="https://github.com/psf/requests-html" target="_blank" rel="noopener">requests-html</a> library.</span></p>
+<p><span style="font-family: helvetica, arial, sans-serif; font-size: 12pt;">Because many websites load their data using <a title="JavaScript Programming Language" href="https://en.wikipedia.org/wiki/JavaScript" target="_blank" rel="noopener">JavaScript</a> instead of directly rendering HTML code, I chose <span style="font-family: 'andale mono', monospace;">requests-html</span> library as it supports JavaScript driven websites.</span></p>
+<p><em><span style="font-family: helvetica, arial, sans-serif; font-size: 12pt;"><strong>Related:</strong>&nbsp;<a title="How to Send Emails in Python using smtplib Module" href="../../../../../article/sending-emails-in-python-smtplib" target="_blank" rel="noopener">How to Send Emails in Python using smtplib Module</a>.</span></em></p>
+<p><span style="font-family: helvetica, arial, sans-serif; font-size: 12pt;">Alright, let's get started, we need to first install <span style="font-family: 'andale mono', monospace;">requests-html</span>:</span></p>
+<pre class="language-python"><code>pip3 install requests-html</code></pre>
+<p><span style="font-family: helvetica, arial, sans-serif; font-size: 12pt;">Let's start coding:</span></p>
+<pre class="language-python"><code>import re
+from requests_html import HTMLSession</code></pre>
+<p><span style="font-family: helvetica, arial, sans-serif; font-size: 12pt;">We need <a title="re &mdash; Regular expression operations" href="https://docs.python.org/3/library/re.html" target="_blank" rel="noopener">re</a> module here because we will be extracting emails from HTML content using <a title="Regular Expressions" href="https://en.wikipedia.org/wiki/Regular_expression" target="_blank" rel="noopener">regular expressions</a>, if you're not sure what a regular expression is, it is basically a sequence of characters that define a search pattern.</span></p>
+<p><span style="font-family: helvetica, arial, sans-serif; font-size: 12pt;">I've grabbed the most used and accurate regular expression for email addresses from <a title="How to validate an email address using a regular expression?" href="https://stackoverflow.com/questions/201323/how-to-validate-an-email-address-using-a-regular-expression" target="_blank" rel="noopener">this stackoverflow answer</a>:</span></p>
+<pre class="language-python"><code>url = "https://www.randomlists.com/email-addresses"
+EMAIL_REGEX = r"""(?:[a-z0-9!#$%&amp;'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&amp;'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])"""</code></pre>
+<p><span style="font-family: helvetica, arial, sans-serif; font-size: 12pt;">I know, it is very long, but this is the best so far that defines how email addresses are expressed in a general way.</span></p>
+<p><span style="font-family: helvetica, arial, sans-serif; font-size: 12pt;"><span style="font-family: 'andale mono', monospace;">url</span> string is the <span style="font-family: 'andale mono', monospace;">URL</span> we want to grab email addresses from, I'm using a website that generates random email addresses (which loads them using Javascript).</span></p>
+<p><span style="font-family: helvetica, arial, sans-serif; font-size: 12pt;">Let's initiate the HTML session, which is a consumable session for cookie persistence and connection pooling:</span></p>
+<pre class="language-python"><code># initiate an HTTP session
+session = HTMLSession()</code></pre>
+<p><span style="font-family: helvetica, arial, sans-serif; font-size: 12pt;">Now let's send the <span style="font-family: 'andale mono', monospace;">GET</span> request to the <span style="font-family: 'andale mono', monospace;">URL</span>:</span></p>
+<pre class="language-python"><code># get the HTTP Response
+r = session.get(url)</code></pre>
+<p><span style="font-family: helvetica, arial, sans-serif; font-size: 12pt;">If you're sure that the website you're grabbing email addresses from uses JavaScript to load most of the data, then you need to execute the below line of code:</span></p>
+<pre class="language-python"><code># for JAVA-Script driven websites
+r.html.render()</code></pre>
+<p><span style="font-family: helvetica, arial, sans-serif; font-size: 12pt;">This will reload the website in <a title="The Chromium Projects" href="https://www.chromium.org/" target="_blank" rel="noopener">Chromium</a>, and replaces HTML content with an updated version, with Javascript executed. Of course, it'll take some time to do that, that's why you need to execute this only if the website is loading its data using JavaScript.</span></p>
+<p><em><span style="font-family: helvetica, arial, sans-serif; font-size: 12pt;"><strong>Note:</strong> Executing <span style="font-family: 'andale mono', monospace;">render()</span> method as the first time will automatically download Chromium for you, so it will take some time to do that.</span></em></p>
+<p><span style="font-family: helvetica, arial, sans-serif; font-size: 12pt;">Now that we have the HTML content and our email address regular expression, let's do it:</span></p>
+<pre class="language-python"><code>for re_match in re.finditer(EMAIL_REGEX, r.html.raw_html.decode()):
+    print(re_match.group())</code></pre>
+<p><span style="font-family: helvetica, arial, sans-serif; font-size: 12pt;"><span style="font-family: 'andale mono', monospace;">re.finditer()</span> method returns an iterator over all non-overlapping matches in the string. For each match, the iterator returns a match object, that is why we're accessing the matched string (the email address) using <span style="font-family: 'andale mono', monospace;">group()</span> method.</span></p>
+<p><span style="font-family: helvetica, arial, sans-serif; font-size: 12pt;">Here is a result of my execution:</span></p>
+<pre class="language-python"><code>msherr@comcast.net
+miyop@yahoo.ca
+ardagna@yahoo.ca
+tokuhirom@att.net
+atmarks@comcast.net
+isotopian@live.com
+hoyer@msn.com
+ozawa@yahoo.com
+mchugh@outlook.com
+sriha@outlook.com
+monopole@sbcglobal.net
+monopole@sbcglobal.net</code></pre>
+<p><span style="font-family: helvetica, arial, sans-serif; font-size: 12pt;">Awesome, only with few lines of code, we are able to grab email addresses from any web page we want !</span></p>
+<p><span style="font-family: helvetica, arial, sans-serif; font-size: 12pt;">You can extend this code to build a crawler to <a title="How to Extract All Website Links in Python" href="../../../../../article/extract-all-website-links-python" target="_blank" rel="noopener">extract all website <span style="font-family: 'andale mono', monospace;">URL</span>s</a> and run this on every page you find, and then you save them to a file. However, some website will discover that you're a bot and not an actual human browsing the website, so it'll block your IP address, you need to <a title="How to Use Proxies to Anonymize your Browsing and Scraping using Python" href="../../../../../article/using-proxies-using-requests-in-python" target="_blank" rel="noopener">use a proxy server</a> in that case. Let us know what you did with this in the comments below !</span></p>
+<p><em><span style="font-family: helvetica, arial, sans-serif; font-size: 12pt;"><strong>Read Also:</strong>&nbsp;<a title="How to Build a XSS Vulnerability Scanner in Python" href="../../../../../article/make-a-xss-vulnerability-scanner-in-python" target="_blank" rel="noopener">How to Build a XSS Vulnerability Scanner in Python</a>.</span></em></p>
+<p><span style="font-family: helvetica, arial, sans-serif; font-size: 12pt;">Happy Scraping &hearts;</span></p>
+    
+    <a target="_blank" rel="noopener" href="/code/extracting-email-addresses-from-web-pages-using-python" class="btn btn-outline-primary"><i class="fa fa-code"></i> View Full Code</a>
+    
+    <div align="center">
+        <span style="font-size: 14px;">Sharing is caring!</span>
+        <br><br>
+        <a href="javascript:void(0);" class="fb-share">
+            <span class="fa-stack fa-lg">
+                <i class="fas fa-circle fa-stack-2x"></i>
+                <i class="fab fa-facebook-f fa-stack-1x fa-inverse"></i>
+            </span>
+        </a>
+        <a href="javascript:void(0);" class="twitter-share">
+            <span class="fa-stack fa-lg">
+                <i class="fas fa-circle fa-stack-2x"></i>
+                <i class="fab fa-twitter fa-stack-1x fa-inverse"></i>
+            </span>
+        </a>
+    </div>
+    <br>
+    <ins class="adsbygoogle"
+        style="display:block; text-align:center;"
+        data-ad-layout="in-article"
+        data-ad-format="fluid"
+        data-ad-client="ca-pub-9146355715384215"
+        data-ad-slot="8543983438"></ins>
+    <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+    <br>
+    
+    
+        
+            
+                <h3 class="text-info">Read Also</h3>
+                <br>
+            
+        <div class="card" style="margin-top: 5px">
+            <div class="row">
+                <div class="col-sm-4">
+                    <a href="/article/convert-html-tables-into-csv-files-in-python"><img class="card-img-top" style="padding: 0.35em" src="/media/articles/html-table-extractor-in-python.png" alt="How to Convert HTML Tables into CSV Files in Python"></a>
+                </div>
+                <div class="col-sm">
+                    <div class="card-body">
+                        <a href="/article/convert-html-tables-into-csv-files-in-python" style="text-decoration: none;"><h4 class="card-title" style="margin: 0">How to Convert HTML Tables into CSV Files in Python</h4></a>
+                        <div class="row">
+                            <div class="col-8">
+                                <a href="/article/convert-html-tables-into-csv-files-in-python" style="text-decoration: none;"><p class="text-secondary" style="font-size:15px;">Extracting HTML tables using requests and beautiful soup and then saving it as CSV file or any other format in Python.</p></a>
+                            </div>
+                            <div class="col-4" style="padding-top: 20pt;"><a class="btn btn-primary float-right" href="/article/convert-html-tables-into-csv-files-in-python">Visit →</a></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+    
+        
+            
+        <div class="card" style="margin-top: 5px">
+            <div class="row">
+                <div class="col-sm-4">
+                    <a href="/article/extracting-image-metadata-in-python"><img class="card-img-top" style="padding: 0.35em" src="/media/articles/image-metadata-extractor-in-python.png" alt="How to Extract Image Metadata in Python"></a>
+                </div>
+                <div class="col-sm">
+                    <div class="card-body">
+                        <a href="/article/extracting-image-metadata-in-python" style="text-decoration: none;"><h4 class="card-title" style="margin: 0">How to Extract Image Metadata in Python</h4></a>
+                        <div class="row">
+                            <div class="col-8">
+                                <a href="/article/extracting-image-metadata-in-python" style="text-decoration: none;"><p class="text-secondary" style="font-size:15px;">Learn how you can extract image metadata such as GPS info, camera make, model and much more using Exchangeable Image file Format (EXIF) in Python with Pillow library.</p></a>
+                            </div>
+                            <div class="col-4" style="padding-top: 20pt;"><a class="btn btn-primary float-right" href="/article/extracting-image-metadata-in-python">Visit →</a></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+    
+        
+            
+        <div class="card" style="margin-top: 5px">
+            <div class="row">
+                <div class="col-sm-4">
+                    <a href="/article/access-wikipedia-python"><img class="card-img-top" style="padding: 0.35em" src="/media/articles/wikipedia-python.jpg" alt="How to Extract Wikipedia Data in Python"></a>
+                </div>
+                <div class="col-sm">
+                    <div class="card-body">
+                        <a href="/article/access-wikipedia-python" style="text-decoration: none;"><h4 class="card-title" style="margin: 0">How to Extract Wikipedia Data in Python</h4></a>
+                        <div class="row">
+                            <div class="col-8">
+                                <a href="/article/access-wikipedia-python" style="text-decoration: none;"><p class="text-secondary" style="font-size:15px;">Extracting data and searching in Wikipedia, getting article summaries, links, images and more using Wikipedia library in Python.</p></a>
+                            </div>
+                            <div class="col-4" style="padding-top: 20pt;"><a class="btn btn-primary float-right" href="/article/access-wikipedia-python">Visit →</a></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+    
+    <div align="center">
+        <br>
+        <a href="https://twitter.com/ThePythonCode1?ref_src=twsrc%5Etfw" class="twitter-follow-button" data-show-count="false">Follow @ThePythonCode</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+        <br>
+        <div class="fb-like" data-href="https://www.facebook.com/thepythoncode" data-width="" data-layout="button_count" data-action="like" data-size="large" data-show-faces="false" data-share="true"></div>
+    </div>
+    <br>
+    <h3>Comment panel</h3>
+    <div class="row bootstrap snippets">
+        &nbsp;&nbsp;&nbsp;<div class="alert alert-warning" style="font-size: 10pt;">Comment system is still in Beta, if you find any bug, please consider contacting us <a href="/contact">here</a>.</div>
+        <ul class="media-list container"></ul>
+        <div class="col-md-12 col-md-offset-2 col-sm-12">
+        <div class="comment-wrapper">
+            <div class="panel panel-info">  
+                <div id="success"></div>
+                <div id="replies"></div>
+                <div id="name-invalid"></div>
+                <div id="email-invalid"></div>
+                <div id="content-invalid"></div>
+                <div class="panel-body">
+                    <form>
+                        <input type="hidden" name="csrfmiddlewaretoken" value="IAF47SMDlMmDe1tNReoaXgXrijM0wxa9VbFzzHLJQRsfpuk0Tqq9LUgrxXlwTo5w">
+                        <div class="form-group">
+                            <label style="font-size: 10.7pt;"><i>Your email address will not be published.</i></label>
+                            <input class="form-control" placeholder="Enter your name" type="text" name="name" required id="name">
+                        </div>
+                        <div class="form-group">
+                            <input class="form-control" placeholder="Enter Email" type="email" name="email" required id="email">
+                        </div>
+                        <input type="hidden" name="reply-to" id="reply-to" value="">
+                        <textarea maxlength="500" class="form-control" style="resize: none;" id="comment-content" placeholder="Write a comment..." rows="4"></textarea>
+                        <br>
+                        <div id="recaptcha-invalid"></div>
+                        <div id="html_element"></div>
+                        <br>
+                        <div class="control-group">
+                            <div class="form-group controls">
+                            <input type="checkbox" checked="checked" name="subscribe" id="subscribe">
+                            <label>Subscribe for our newsletter</label>
+                            </div>
+                        </div>
+                        <input type="submit" id="submit-comment" class="btn btn-outline-info pull-right" value="Comment">
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+
+            </div>
+            <div class="col-12 col-md-3 col-xl-3">
+    <br>
+    <div style="background-image: linear-gradient(to top, #00c6fb 5%, #005bea 100%);">
+        <form class="text-center border p-4" action="/subscribe" method="POST">
+            <h5 style="color: #fff">Subscribe to our newsletter</h5>
+            <h6 style="color: #fff">Join 4,000+ Python Programmers & Enthusiasts</h6>
+            <input type="hidden" name="csrfmiddlewaretoken" value="IAF47SMDlMmDe1tNReoaXgXrijM0wxa9VbFzzHLJQRsfpuk0Tqq9LUgrxXlwTo5w">
+            <tr><th></th><td><input type="email" name="email" class="form-control" placeholder="Enter Email Here" required id="id_email"></td></tr>
+            <input type="hidden" name="form" value="1">
+            <input type="hidden" name="next" value="/article/extracting-email-addresses-from-web-pages-using-python">
+            <button class="col-md-7 btn btn-success my-2" type="submit">Get Python Tutorials</button>
+        </form>
+    </div>
+    <br>
+    <h5 class="text-info">Topics</h5>
+    <div class="list-group">
+        <ul class="nav">
+            
+            <a class="list-group-item list-group-item-action" href="/topic/ethical-hacking"><li><b>Ethical Hacking</b></li></a>
+            
+            <a class="list-group-item list-group-item-action" href="/topic/machine-learning"><li><b>Machine Learning</b></li></a>
+            
+            <a class="list-group-item list-group-item-action" href="/topic/general-python-topics"><li><b>General Python Topics</b></li></a>
+            
+            <a class="list-group-item list-group-item-action" href="/topic/web-scraping"><li><b>Web Scraping</b></li></a>
+            
+            <a class="list-group-item list-group-item-action" href="/topic/scapy"><li><b>Packet Manipulation Using Scapy</b></li></a>
+            
+            <a class="list-group-item list-group-item-action" href="/topic/computer-vision"><li><b>Computer Vision</b></li></a>
+            
+            <a class="list-group-item list-group-item-action" href="/topic/python-standard-library"><li><b>Python Standard Library</b></li></a>
+            
+            <a class="list-group-item list-group-item-action" href="/topic/using-apis-in-python"><li><b>Using APIs</b></li></a>
+            
+            <a class="list-group-item list-group-item-action" href="/topic/nlp"><li><b>Natural Language Processing</b></li></a>
+            
+        </ul>
+    </div>
+    <br>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <!-- vert1 -->
+    <ins class="adsbygoogle"
+        style="display:block"
+        data-ad-client="ca-pub-9146355715384215"
+        data-ad-slot="3040525332"
+        data-ad-format="auto"
+        data-full-width-responsive="true"></ins>
+    <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+    <br>
+    <h5><a href="/articles">New Tutorials</a></h5>
+    <div class="list-group">
+        <ul class="nav list-group-flush">
+            
+            <a class="list-group-item list-group-item-action" href="/article/using-github-api-in-python"><li><b>How to Use Github API in Python</b></li></a>
+            
+            <a class="list-group-item list-group-item-action" href="/article/extracting-and-submitting-web-page-forms-in-python"><li><b>How to Extract and Submit Web Forms from a URL using Python</b></li></a>
+            
+            <a class="list-group-item list-group-item-action" href="/article/list-files-and-directories-in-ftp-server-in-python"><li><b>How to List all Files and Directories in FTP Server using Python</b></li></a>
+            
+            <a class="list-group-item list-group-item-action" href="/article/text-classification-using-tensorflow-2-and-keras-in-python"><li><b>How to Perform Text Classification in Python using Tensorflow 2 and Keras</b></li></a>
+            
+            <a class="list-group-item list-group-item-action" href="/article/use-google-custom-search-engine-api-in-python"><li><b>How to Use Google Custom Search Engine API in Python</b></li></a>
+            
+        </ul>
+    </div>
+    <br>
+        <h5 class="text-info">Popular Tutorials</h5>
+        <div class="list-group">
+            <ul class="nav list-group-flush">
+                
+                <a class="list-group-item list-group-item-action" href="/article/using-speech-recognition-to-convert-speech-to-text-python"><li><b>How to Convert Speech to Text in Python</b></li></a>
+                
+                <a class="list-group-item list-group-item-action" href="/article/encrypt-decrypt-files-symmetric-python"><li><b>How to Encrypt and Decrypt Files in Python</b></li></a>
+                
+                <a class="list-group-item list-group-item-action" href="/article/detect-faces-opencv-python"><li><b>How to Detect Faces in Python using OpenCV</b></li></a>
+                
+                <a class="list-group-item list-group-item-action" href="/article/get-hardware-system-information-python"><li><b>How to Get Hardware and System Information in Python</b></li></a>
+                
+                <a class="list-group-item list-group-item-action" href="/article/building-a-speech-emotion-recognizer-using-sklearn"><li><b>How to Make a Speech Emotion Recognizer Using Python And Scikit-learn</b></li></a>
+                
+            </ul>
+        </div>
+    <br>
+    <div class="sticky-top">
+        <br id="before-jobs">
+        <br>
+        <!-- vert1 -->
+        <ins class="adsbygoogle"
+            style="display:block"
+            data-ad-client="ca-pub-9146355715384215"
+            data-ad-slot="3040525332"
+            data-ad-format="auto"
+            data-full-width-responsive="true"></ins>
+        <script>
+            (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+        <br>
+    </div>
+</div>
+        </div>
+    </div>
+    <!-- Footer -->
+
+
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<div class="container">
+  <ins class="adsbygoogle"
+      style="display:block"
+      data-ad-format="autorelaxed"
+      data-ad-client="ca-pub-9146355715384215"
+      data-ad-slot="2674076637"></ins>
+</div>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+<br>
+
+
+<section class="mobile-hidden subscribe-area pb-50 pt-70" style="margin: 0 50px 0 50px;">
+<div class="container">
+	<div class="row">
+        <div class="col-md-4">
+            <div class="subscribe-text mb-15">
+            <img style="width: 80px;height:80px; float:left; margin-right: 30px;" src="/static/img/python_logo.svg">
+              <h2>Subscribe Newsletter</h2>
+              <br>
+              <span>JOIN OUR NEWSLETTER THAT IS FOR PYTHON DEVELOPERS & ENTHUSIASTS LIKE YOU !</span>
+            </div>
+        </div>
+        <div class="col-md-8">
+            <div class="subscribe-wrapper subscribe2-wrapper mb-15">
+                <div class="subscribe-form">
+                    <form action="/subscribe" method="POST">
+                        <input type="hidden" name="csrfmiddlewaretoken" value="IAF47SMDlMmDe1tNReoaXgXrijM0wxa9VbFzzHLJQRsfpuk0Tqq9LUgrxXlwTo5w">
+                        <input placeholder="Enter your Email Address" required id="id_email" name="email" type="email">
+                        <input type="hidden" name="form" value="3">
+                        <input type="hidden" name="next" value="/article/extracting-email-addresses-from-web-pages-using-python">
+                        <br>
+                        <button class="btn">Get Python Tutorials <i class="fas fa-long-arrow-alt-right"></i></button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</section>
+
+  <br>
+  <br>
+  <footer style="background-color: #050505">
+      <div class="row">
+        <div class="col-lg col-md">
+          <ul class="list-inline text-center">
+            <li class="list-inline-item">
+              <a href="https://twitter.com/ThePythonCode1">
+                <span class="fa-stack fa-lg">
+                  <i class="fas fa-circle fa-stack-2x"></i>
+                  <i class="fab fa-twitter fa-stack-1x fa-inverse"></i>
+                </span>
+              </a>
+            </li>
+            <li class="list-inline-item">
+              <a href="https://www.facebook.com/thepythoncode">
+                <span class="fa-stack fa-lg">
+                  <i class="fas fa-circle fa-stack-2x"></i>
+                  <i class="fab fa-facebook-f fa-stack-1x fa-inverse"></i>
+                </span>
+              </a>
+            </li>
+            <li class="list-inline-item">
+              <a href="https://www.github.com/x4nth055">
+                <span class="fa-stack fa-lg">
+                  <i class="fas fa-circle fa-stack-2x"></i>
+                  <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                </span>
+              </a>
+            </li>
+          </ul>
+        </div>
+        <div class="col-md">
+        <a class="text-uppercase" href="/privacy-policy">
+          <p style="font-family: 'Manjari', sans-serif;font-size:15px;">
+          Privacy Policy
+          </p>        
+        </a>
+        <a class="text-uppercase" href="/advertise">
+          <p style="font-family: 'Manjari', sans-serif;font-size:15px;">
+          Advertise With Us
+          </p>        
+        </a>
+        <a class="text-uppercase" href="/support">
+          <p style="font-family: 'Manjari', sans-serif;font-size:15px;">
+          Support US
+          </p>        
+        </a>
+        </div>
+        <div class="col-md">
+        
+        <a class="text-uppercase" href="/about">
+          <p style="font-family: 'Manjari', sans-serif;font-size:15px;">
+          About
+          </p>        
+        </a>
+        <a class="text-uppercase" href="/contact">
+          <p style="font-family: 'Manjari', sans-serif;font-size:15px;">
+          Contact Us
+          </p>        
+        </a>
+        </div>
+      </div>
+      <p class="copyright text-info" style="font-family: Arial, Helvetica, sans-serif;">Copyright &copy; PythonCode 2020</p>
+  </footer>
+    <script src="/static/js/clean-blog.min.js"></script>
+    
+<script src="/static/js/prism.js"></script>
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header text-center" style="background-image: linear-gradient(to top, #00aaf3 5%, #005bea 100%);">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                <h4 style="color: #fff">Subscribe to our newsletter for more Python tutorials !</h4>
+                <br>
+            </div>
+            <div class="modal-body">
+                <form action="/subscribe" method="POST">
+                    <input type="hidden" name="csrfmiddlewaretoken" value="IAF47SMDlMmDe1tNReoaXgXrijM0wxa9VbFzzHLJQRsfpuk0Tqq9LUgrxXlwTo5w">
+                    <tr><th></th><td><input type="email" name="email" class="form-control" placeholder="Enter Email Here" required id="id_email"></td></tr>
+                    <input type="hidden" name="form" value="2">
+                    <input type="hidden" name="next" value="/article/extracting-email-addresses-from-web-pages-using-python">
+                    <br>
+                    <button class="btn btn-success btn-lg btn-block" type="submit">Get Python Tutorials</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit" async defer></script>
+<script src="/static/js/utils.js"></script>
+<script>
+    function share_facebook() {
+        window.open("https://www.facebook.com/sharer/sharer.php?u=https://www.thepythoncode.com/article/extracting-email-addresses-from-web-pages-using-python", "Popup", "location,status,scrollbars,resizable,width=800, height=500");  
+    }
+    function share_twitter() {
+        window.open("https://www.twitter.com/share?url=https://www.thepythoncode.com/article/extracting-email-addresses-from-web-pages-using-python", "Popup", "location,status,scrollbars,resizable,width=800, height=500");
+    }
+    $(".fb-share").on("click", () => {
+        share_facebook();
+        $.ajax({
+            url: "/count-fb-shares/57",
+        });
+    });
+    $(".twitter-share").on("click", () => {
+        share_twitter();
+        $.ajax({
+            url: "/count-twitter-shares/57",
+        })
+    });      
+    $.ajax({
+        url: "/count-view/57",
+    }).done((data) => {
+        if(data != "0") {
+            data = parseInt(data);
+            $("#n-views").html("· <i class='fas fa-eye'></i> " + nFormatter(data, 1));
+        }
+    });
+    
+    setTimeout(() => {
+        $("#myModal").modal("show");
+    }, 10000);
+    
+    let stripTags = (text) => {
+        return $("<div/>").html(text).text();
+    }
+    let spawnBreaksAndLinks = (text) => {
+        text = text.replace("\n", "<br>");
+        text = text.replace(/(\r\n|\n|\r)/gm, "<br>");
+        // remove redundant consecutive line breaks
+        while(text.includes("<br><br><br>")) {
+            text = text.replace("<br><br><br>", "<br><br>");
+        }
+        // spawn the a tag
+        // regex for URLs
+        let regex = /(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})/gi;
+        let matches = text.match(regex);
+        $.each(matches, (i, m) => {
+            text = text.replace(m, `<a rel="ugc" href="` + m + `">` + m + `</a>`);
+        });
+        // TODO
+        return text
+    }
+    
+    let reply = (comment_id, author_name) => {
+        $("#success").empty();
+        $("#reply-to").val(comment_id);
+        $("#replies").empty();
+        $("#replies").append(`<div class='alert alert-primary alert-dismissible fade show' style='font-size: 11.7pt;' role='alert'><strong>Reply to @` + author_name + `</strong><button type="button" id="close-reply" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>`);
+    }
+    let bindReplyButton = () => {
+        $(".reply-button").on("click", (e) => {
+            let comment_id = e.toElement.id;
+            let author_name = $(e.toElement).data("comment-author");
+            reply(comment_id, author_name);
+            window.location.replace("https://www.thepythoncode.com/article/extracting-email-addresses-from-web-pages-using-python#replies");
+            $("#close-reply").on("click", () => {
+                console.log("closed");
+                $("#reply-to").val("");
+            })
+        })   
+    }
+    let submitComment = (email, name, subscribe, reply_to, content) => {
+        var token = 'IAF47SMDlMmDe1tNReoaXgXrijM0wxa9VbFzzHLJQRsfpuk0Tqq9LUgrxXlwTo5w';
+        $.ajax({
+            headers: {"X-CSRFToken": token},
+            url: "/comment",
+            method: "POST",
+            data: {
+                email: email,
+                name: name,
+                subscribe: subscribe,
+                content: content,
+                reply_to: reply_to,
+                article_id: "57",
+                g_recaptcha_response: grecaptcha.getResponse(),
+            }
+        }).done((code) => {
+            if(code == "success") {
+                $("#success").empty();
+                queryComments();
+                $("#success").append(`<div class='alert alert-success fade show' style='font-size: 11.7pt;' role='alert'>Your comment is pending for approval by the webmaster, we will soon send you an email once it's approved.</div> `)
+                $("input#name").val("");
+                $("input#email").val("");
+                $("textarea#comment-content").val("");
+            } else if(code == "captcha invalid") {
+                $("#recaptcha-invalid").empty();
+                $("#recaptcha-invalid").append(`<div class='alert alert-danger fade show' style='font-size: 11.7pt;' role='alert'>reCaptcha invalid, please verify again.</div> `)
+            }
+            grecaptcha.reset();
+        });
+    }
+    let getCommentHTML = (comment_id, author_image, author_name, date_published, content, reply_to_id=false, is_approved=true) => {
+        let relativeDate = timeDifference(new Date(), date_published);
+        let html = "";
+        if(reply_to_id != false) {
+            html += "<br>";
+        }
+        html += `<li id="comment-` + comment_id + `" class="media border border-light"`;
+        if(reply_to_id != false) {
+            html += ` style="margin-left: 50px;"`;
+        }
+        html += `><img src='` + author_image + `' alt='' class='img-circle' style="width: 13vmin; height: 11vmin; object-fit: cover; margin-right: 10px">
+            <div class='media-body'>
+                <strong class='text-info' style='font-size: 12pt;'>` + stripTags(author_name) + `</strong>
+                <span class='text-muted' style='font-size: 11pt;'><small class='text-muted'>` + relativeDate + `</small></span><br>
+                <span style='font-size: 11.7pt;'>` + spawnBreaksAndLinks(stripTags(content)) + `</span>
+            </div><button id="`;
+        if(is_approved) {
+            if(reply_to_id == false) {
+                html += comment_id;
+            } else {
+                html += reply_to_id;
+            }
+            html += `" data-comment-author="` + stripTags(author_name) + `" class='btn btn-link reply-button'>Reply</button></li>`;
+        } else {
+            html += comment_id + `" class='btn btn-warning approve-comment pull-right' style='margin: 20px'>APPROVE</button>
+            <button id="` + comment_id + `" class='btn btn-danger delete-comment pull-right' style='margin: 20px'>DELETE</button>`
+        }
+        if(reply_to_id == false) {
+            html += `<br>`;
+        }
+        return html;
+    }
+    let queryComments = () => {
+        $.ajax({
+            url: "/comments/57",
+        }).done((data) => { 
+            let comments = data[0];
+            let replies = data[1];
+            var is_superuser = "False" == "True";
+            var dateNow = new Date();
+            // clear all comments
+            $(".media-list").empty();
+            $.each(comments, (i, comment) => {
+                var date_published = new Date(comment["date_published"]);
+                var author_image = comment["is_superuser"] ? "/media/authors/new_logo.png" : "/media/authors/default.PNG";
+                if(comment["is_approved"]) {
+                    let comment_html = getCommentHTML(comment["id"], author_image, comment["author_name"], date_published, comment["content"]);
+                    $(".media-list").append(comment_html);
+                } else if(! comment["is_approved"] && is_superuser) {
+                    let comment_html = getCommentHTML(comment["id"], author_image, comment["author_name"], date_published, comment["content"], false, is_approved=false);
+                    $(".media-list").append(comment_html);
+                } 
+            });
+            $.each(replies, (i, reply) => {
+                var date_published = new Date(reply["date_published"]);
+                var author_image = reply["is_superuser"] ? "/media/authors/new_logo.png" : "/media/authors/default.PNG";
+                if(reply["is_approved"]) {
+                    let comment_html = getCommentHTML(reply["id"], author_image, reply["author_name"], date_published, reply["content"], reply["reply_to_id"]);
+                    $("li#comment-" + reply["reply_to_id"]).after(comment_html);
+                } else if(! reply["is_approved"] && is_superuser) {
+                    let comment_html = getCommentHTML(reply["id"], author_image, reply["author_name"], date_published, reply["content"], reply["reply_to_id"], is_approved=false);
+                    $("li#comment-" + reply["reply_to_id"]).after(comment_html);
+                }
+            });
+            
+            bindReplyButton();
+            // refresh with fade
+            $(".media").fadeOut(10);
+            $(".media").fadeIn(1000);
+        });
+    }
+    queryComments();
+    $("input#submit-comment").on("click", () => {
+        $("#success").empty();
+        let name = $.trim(stripTags($("input#name").val()));
+        let email = $.trim(stripTags($("input#email").val()));
+        let subscribe = $("input#subscribe").is(":checked");
+        let reply_to = stripTags($("input#reply-to").val());
+        let content = $.trim(stripTags($("textarea#comment-content").val()));
+        let email_regex = /^\b[A-Z0-9._%-]+@[A-Z0-9.-]+\.[A-Z]{2,4}\b$/i
+        let name_valid  = name.length > 2;
+        let email_valid = email_regex.test(email);
+        let content_valid = content.split(" ").length >= 2;
+        if(!name_valid) {
+            $("#name-invalid").empty();
+            $("#name-invalid").append("<div class='alert alert-danger' style='font-size: 11.7pt;' role='alert'><li>Invalid Pseudo Name.</li></div>");
+        } else {
+            $("#name-invalid").empty();
+        }
+        if(!email_valid) {
+            $("#email-invalid").empty();
+            $("#email-invalid").append("<div class='alert alert-danger' style='font-size: 11.7pt;' role='alert'><li>Invalid Email address.</li></div>");
+        } else {
+            $("#email-invalid").empty();
+        }
+        if(!content_valid) {
+            $("#content-invalid").empty();
+            $("#content-invalid").append("<div class='alert alert-danger' style='font-size: 11.7pt;' role='alert'><li>Not enough words, only more than 2 words are acceptable.</li></div>");
+        } else {
+            $("#content-invalid").empty();
+        }
+        if(!email_valid || !name_valid || !content_valid) {
+            return false;
+        }
+        $("#replies").empty();
+        $("#reply-to").val("");
+
+        $("#content-invalid").empty();
+        $("#email-invalid").empty();
+        $("#name-invalid").empty();
+        $("#recaptcha-invalid").empty();
+        submitComment(email, name, subscribe, reply_to, content);
+        return false;
+    })
+</script>
+<script src="/static/js/hireremote.js"></script>
+
+</body>
+</html>
