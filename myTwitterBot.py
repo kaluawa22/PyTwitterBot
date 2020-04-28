@@ -34,19 +34,19 @@ api = tweepy.API(auth)
 
 
 #### Code for the video downloader
-def parse(cls, api, raw):
-    status = cls.first_parse(api, raw)
-    setattr(status, 'json',json.dumps(raw))
-    return status
-
-
-# Status() is the data model for a tweet
-tweepy.models.Status.first_parse = tweepy.models.Status.parse
-tweepy.models.Status.parse = parse
-# User() is the data model for a user profil
-tweepy.models.User.first_parse = tweepy.models.User.parse
-tweepy.models.User.parse = parse
-
+# def parse(cls, api, raw):
+#     status = cls.first_parse(api, raw)
+#     setattr(status, 'json',json.dumps(raw))
+#     return status
+#
+#
+# # Status() is the data model for a tweet
+# tweepy.models.Status.first_parse = tweepy.models.Status.parse
+# tweepy.models.Status.parse = parse
+# # User() is the data model for a user profile
+# tweepy.models.User.first_parse = tweepy.models.User.parse
+# tweepy.models.User.parse = parse
+#
 
 
 #####Tweepy active Stream Creation Code. This will allow me to stream data from twitter in real time.
@@ -147,20 +147,35 @@ notDoneTweeting = True
 startTime = time.time()
 quoteArray = []
 openQuoteFile("quotes.txt", quoteArray)
-mentions = api.mentions_timeline(count = 1)
+# mentions = api.mentions_timeline(count = 1)
 buffer_size = 1024
 
 sampledList = random.sample(quoteArray,len(quoteArray)) #randomizes the quoteArray each time the program is run
 
 # main("https://www.pexels.com/search/dog/", "web-scraping")
+#
+# for i in range(len(quoteArray)):
+#     randomNum = random.randint(0, len(quoteArray))
+#     testRandomNum = random.randint(0,100)
+#     newStatus = api.update_status(sampledList[i] + " " + "KaluBot") # prints status with a random number
+#     # newTestStatus = api.update_status("KaluBot" + str(testRandomNum))
+#     print(sampledList[i] + str(randomNum))                                             #This deals with twitter duplicate tweets/testing purposes only
+#
+#     print(randomNum)
+#     sleep(10)       #Number of seconds of sleep till the for loop iterates
 
-for i in range(len(quoteArray)):
-    randomNum = random.randint(0, len(quoteArray))
-    newStatus = api.update_status(sampledList[i] + " " + "KaluBot") # prints status with a random number
-    print(sampledList[i] + str(randomNum))                                             #This deals with twitter duplicate tweets/testing purposes only
+currentlyTweeting = True
+numTweets = 0
+while currentlyTweeting:
+    testRandomNum = random.randint(0, 100)
+    newTestStatus = api.update_status("KaluBot" + " " + str(testRandomNum))
+    print("KaluBot" + str(testRandomNum))
+    sleep(10)
+    numTweets += 1
+    if numTweets > 3:
+        currentlyTweeting = False
 
-    print(randomNum)
-    sleep(10)       #Number of seconds of sleep till the for loop iterates
+
 
 # for mention in mentions:
 #     print(str(mention.id) + mention.text)
@@ -168,17 +183,17 @@ for i in range(len(quoteArray)):
 
 
 
-updateStatus = api.update_status(newStatus)
-
-######Twitter Stream Initialization####################
-myStreamListener = StdOutListener()
-
-myStream = tweepy.Stream(auth = api.auth, listen = myStreamListener)
-
-
-if __name__ == '__main__':
-    s = []
-
-
+# updateStatus = api.update_status(newStatus)
+#
+# ######Twitter Stream Initialization####################
+# myStreamListener = StdOutListener()
+#
+# myStream = tweepy.Stream(auth = api.auth, listen = myStreamListener)
+#
+#
+# # if __name__ == '__main__':
+#     s = []
+#
+#
 
 
